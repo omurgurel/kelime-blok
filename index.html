@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kelime Blok - Türkçe Kelime Bulmaca Oyunu</title>
+    <!-- Google Font: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Üst Başlık & Kontrol Çubuğu -->
+    <header>
+        <div class="logo-area">
+            <div class="logo-icon">K</div>
+            <h1 class="logo-title">KELİME BLOK</h1>
+        </div>
+
+        <!-- 5, 6, 7 Harf Seçici -->
+        <div class="mode-selector" id="modeSelector">
+            <button class="mode-btn active" data-len="5">5 Harfli</button>
+            <button class="mode-btn" data-len="6">6 Harfli</button>
+            <button class="mode-btn" data-len="7">7 Harfli</button>
+        </div>
+
+        <!-- Hızlı Aksiyon Butonları -->
+        <div class="header-actions">
+            <button class="action-btn" id="helpBtn" title="Nasıl Oynanır?">❔</button>
+            <button class="action-btn" id="statsBtn" title="İstatistikler">📊</button>
+            <button class="action-btn" id="muteBtn" title="Sesi Aç / Kapat">🔊</button>
+            <button class="action-btn" id="restartBtn" title="Yeni Kelime">🔄</button>
+        </div>
+    </header>
+
+    <!-- Ana Oyun ve Alfabe Paneli Düzeni -->
+    <main class="main-layout">
+        <!-- Sol/Orta Alan: 6 Satırlı Izgara ve Sanal Klavye -->
+        <section class="game-container">
+            <div class="board-wrapper">
+                <div class="board" id="board" role="grid" aria-label="Kelime Blok Izgarası">
+                    <!-- Satırlar ve Harf Kutuları app.js tarafından dinamik olarak oluşturulur -->
+                </div>
+            </div>
+
+            <!-- Sanal Klavye -->
+            <div class="keyboard-container" id="keyboard" role="toolbar" aria-label="Sanal Klavye">
+                <!-- Tuşlar app.js tarafından dinamik olarak üretilir -->
+            </div>
+        </section>
+
+        <!-- Ekranın Köşesinde Yer Alan Alfabe Takip Paneli (29 Harf) -->
+        <aside class="alphabet-panel" id="alphabetPanel" aria-label="Alfabe Durum Paneli">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <span>🔤</span>
+                    <span>ALFABE TAKİBİ</span>
+                </div>
+                <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">29 HARF</span>
+            </div>
+
+            <div class="alphabet-legend">
+                <div class="legend-item">
+                    <span class="legend-dot green"></span>
+                    <span>Yeşil: Harf kelimede ve yeri doğru</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot yellow"></span>
+                    <span>Sarı: Harf kelimede var, yeri yanlış</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot gray"></span>
+                    <span>Gri: Harf kelimede bulunmuyor</span>
+                </div>
+            </div>
+
+            <!-- Alfabe Harfleri Grid'i -->
+            <div class="alphabet-grid" id="alphabetGrid">
+                <!-- 29 Türkçe Harf Rozeti app.js tarafından dinamik üretilir -->
+            </div>
+        </aside>
+    </main>
+
+    <!-- Oyun Bitti Modalı (Zafer / Yenilgi) -->
+    <div class="modal-overlay" id="gameOverModal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeGameOverModal">✕</button>
+            <div class="modal-header">
+                <h2 id="modalResultTitle">Tebrikler! 🎉</h2>
+                <p class="modal-subtitle" id="modalResultSubtitle">Kelimeyi başarıyla buldunuz.</p>
+            </div>
+
+            <div class="word-reveal-box">
+                <div class="word-reveal-label">GİZLİ KELİME</div>
+                <div class="word-reveal-word" id="revealedWord">KALEM</div>
+                <div class="word-reveal-clue" id="revealedClue">Yazı yazmaya veya çizim yapmaya yarayan araç</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="statPlayed">0</div>
+                    <div class="stat-label">OYUN</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statWinRate">0%</div>
+                    <div class="stat-label">KAZANMA</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statStreak">0</div>
+                    <div class="stat-label">SERİ</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statMaxStreak">0</div>
+                    <div class="stat-label">EN İYİ SERİ</div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-secondary" id="shareResultBtn">📋 Paylaş</button>
+                <button class="btn-primary" id="modalNewGameBtn">✨ Yeni Oyun</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nasıl Oynanır Modalı -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeHelpModal">✕</button>
+            <div class="modal-header">
+                <h2>Nasıl Oynanır?</h2>
+                <p class="modal-subtitle">Kelime Blok Oyun Kuralları</p>
+            </div>
+            
+            <div style="font-size: 14px; line-height: 1.6; color: #cbd5e1; display: flex; flex-direction: column; gap: 12px;">
+                <p>• Hedefimiz, gizli Türkçe kelimeyi en fazla <strong>6 tahmin hakkı</strong> içinde bulmaktır.</p>
+                <p>• Üst menüden <strong>5, 6 veya 7 harfli</strong> kelime modlarından birini seçebilirsiniz.</p>
+                <p>• Her tahminden sonra kutuların ve ekranın köşesindeki <strong>Alfabe Paneli</strong>'nin renkleri ipucu verir:</p>
+                
+                <div style="background: rgba(30, 41, 59, 0.5); padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 8px;">
+                    <div>🟩 <strong>YEŞİL</strong>: Harf kelimede var ve <u>tam doğru yerinde</u>.</div>
+                    <div>🟨 <strong>SARI</strong>: Harf kelimede var fakat <u>farklı bir basamakta</u>.</div>
+                    <div>⬛ <strong>GRİ</strong>: Harf kelimede <u>kesinlikle yer almıyor</u>.</div>
+                </div>
+
+                <p>• Ekranın sağındaki <strong>Alfabe Takipçisi</strong> üzerinden kullanılabilir harfleri görebilir veya doğrudan tıklayarak harf girebilirsiniz.</p>
+            </div>
+
+            <button class="btn-primary" id="gotItBtn" style="margin-top: 10px;">Anladım, Başla!</button>
+        </div>
+    </div>
+
+    <!-- İstatistik Modalı -->
+    <div class="modal-overlay" id="statsModal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeStatsModal">✕</button>
+            <div class="modal-header">
+                <h2>İstatistikler</h2>
+                <p class="modal-subtitle">Genel Başarı Durumunuz</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="viewStatPlayed">0</div>
+                    <div class="stat-label">OYUN</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="viewStatWinRate">0%</div>
+                    <div class="stat-label">KAZANMA</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="viewStatStreak">0</div>
+                    <div class="stat-label">SERİ</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="viewStatMaxStreak">0</div>
+                    <div class="stat-label">EN İYİ SERİ</div>
+                </div>
+            </div>
+
+            <button class="btn-primary" id="closeStatsBtn" style="margin-top: 10px;">Tamam</button>
+        </div>
+    </div>
+
+    <!-- Toast Bildirim -->
+    <div class="toast" id="toast"></div>
+
+    <!-- JS Bağımlılıkları -->
+    <script src="words.js"></script>
+    <script src="audio.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
