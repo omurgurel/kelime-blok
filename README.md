@@ -2,6 +2,8 @@
 
 **Kelime Blok**, Türkçeye özel olarak geliştirilmiş modern, etkileşimli ve siber temalı bir kelime tahmin oyunudur.
 
+🎮 **Canlı Oyna:** [https://omurgurel.github.io/kelime-blok/](https://omurgurel.github.io/kelime-blok/)
+
 Yarışmacılara 6 tahmin hakkı tanınır; oyuncu gizli kelimeyi bulmaya çalışırken her tahminden sonra harfler renklenerek ipucu verir.
 
 ---
