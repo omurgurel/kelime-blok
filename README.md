@@ -22,7 +22,7 @@ Yarışmacılara 6 tahmin hakkı tanınır; oyuncu gizli kelimeyi bulmaya çalı
 - **Çift Girdi Desteği**: Hem fiziksel klavye (Enter, Backspace, Türkçe karakterler) hem de ekran üzerindeki sanal klavye tam uyumlu çalışır.
 - **Sentetik Web Audio API Ses Motoru**: Harici hiçbir `.mp3` veya `.wav` dosyasına ihtiyaç duymadan gerçek zamanlı sentezlenen sesler (tuş tıklaması, harf çevirme sesleri, doğru harf tınısı, zafer arpeji).
 - **Detaylı İstatistikler & Emojiyle Paylaş**: Oynanan oyun, kazanma oranı, güncel ve rekor seri takibi; sonucu arkadaşlarınızla paylaşmak için tek tıkla emoji panosu kopyalama (`🟩🟨⬛`).
-- **Anlamlı Kelime Havuzu**: 250'den fazla Türkçe kelime ve oyun bittiğinde kelimenin sözlük tanımı / ipucu.
+- **Anlamlı Kelime Havuzu**: 1.100'den fazla zengin Türkçe kelime (5, 6 ve 7 harfli) ve oyun bittiğinde kelimenin sözlük tanımı / ipucu.
 
 ---
 
